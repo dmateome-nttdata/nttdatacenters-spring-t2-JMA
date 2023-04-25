@@ -36,7 +36,7 @@ public class PedidoController {
 		boolean exist = pedidoServicePeninsula.listAllPedido() != null;
 		if (exist) {
 			List<Pedido> product = pedidoServicePeninsula.listAllPedido();
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(product);
 		} else
 			return ResponseEntity.noContent().build();
 	}
@@ -46,7 +46,7 @@ public class PedidoController {
 		boolean exist = pedidoServicePeninsula.findPedidoById(id) != null;
 		if (exist) {
 			Pedido pedido = pedidoServicePeninsula.findPedidoById(id);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(pedido);
 		} else
 			return ResponseEntity.noContent().build();
 	}
@@ -54,7 +54,7 @@ public class PedidoController {
 	@PostMapping("/pedido")
 	public ResponseEntity<?> insertPedidoNew(@RequestBody Pedido pedido) {
 		pedidoServicePeninsula.createOrder(pedido);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
 	}
 
 	@DeleteMapping("/pedidos/{id}")

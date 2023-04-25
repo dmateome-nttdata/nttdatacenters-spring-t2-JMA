@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,6 +18,7 @@ public class Producto {
 	float precioPVP,precioSinIm;
 	
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "idPedido")
 	private Pedido idPedido;
 

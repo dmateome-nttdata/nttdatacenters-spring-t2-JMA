@@ -39,14 +39,14 @@ public class ProductoController {
 		
 		if (p.getLocalidad().equals("Ceuta") || p.getLocalidad().equals("Melilla")
 				|| p.getLocalidad().equals("Canarias")) {
-			pedidoServiceNoPeninsula.addProductToAnOrder(producto, id);
+			Producto proc=pedidoServiceNoPeninsula.addProductToAnOrder(producto, id);
 			return ResponseEntity.status(HttpStatus.CREATED)
-					.build();
+					.body(proc);
 
 		} else {
-			pedidoServicePeninsula.addProductToAnOrder(producto, id);
+			Producto proc=pedidoServicePeninsula.addProductToAnOrder(producto, id);
 			return ResponseEntity.status(HttpStatus.CREATED)
-					.build();
+					.body(proc);
 		}
 
 	}
