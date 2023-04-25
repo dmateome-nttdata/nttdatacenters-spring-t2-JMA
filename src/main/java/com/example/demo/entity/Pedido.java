@@ -14,25 +14,15 @@ public class Pedido {
 	@Id
 	@GeneratedValue
 	int id;
-	String destinatario, direccion,localidad;
-	
+	String destinatario, direccion, localidad;
+	float totalPrecio;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "idPedido")
 	private List<Producto> productoList;
-	
+
 	public Pedido() {
 		super();
 	}
-
-	
-	public Pedido(int id, String destinatario, String direccion, String localidad, List<Producto> productoList) {
-		super();
-		this.id = id;
-		this.destinatario = destinatario;
-		this.direccion = direccion;
-		this.localidad = localidad;
-		this.productoList = productoList;
-	}
-
 
 	public int getId() {
 		return id;
@@ -66,6 +56,14 @@ public class Pedido {
 		this.localidad = localidad;
 	}
 
+	public float getTotalPrecio() {
+		return totalPrecio;
+	}
+
+	public void setTotalPrecio(float totalPrecio) {
+		this.totalPrecio = totalPrecio;
+	}
+
 	public List<Producto> getProductoList() {
 		return productoList;
 	}
@@ -74,14 +72,21 @@ public class Pedido {
 		this.productoList = productoList;
 	}
 
+	public Pedido(int id, String destinatario, String direccion, String localidad, float totalPrecio,
+			List<Producto> productoList) {
+		super();
+		this.id = id;
+		this.destinatario = destinatario;
+		this.direccion = direccion;
+		this.localidad = localidad;
+		this.totalPrecio = totalPrecio;
+		this.productoList = productoList;
+	}
+
 	@Override
 	public String toString() {
 		return "Pedido [id=" + id + ", destinatario=" + destinatario + ", direccion=" + direccion + ", localidad="
-				+ localidad + ", productoList=" + productoList + "]";
+				+ localidad + ", totalPrecio=" + totalPrecio + ", productoList=" + productoList + "]";
 	}
-	
-	
-	
-	
-	
+
 }
