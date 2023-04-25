@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.Pedido;
 import com.example.demo.entity.Producto;
 import com.example.demo.repository.PedidoRepository;
-import com.example.demo.repository.ProductoRepository;
 import com.example.demo.service.PedidoService;
+import com.example.demo.service.ProductoService;
 
 @Service("pedidoServiceNoPeninsula")
 public class PedidoServiceNoPeninsulaImpl implements PedidoService {
@@ -20,8 +20,8 @@ public class PedidoServiceNoPeninsulaImpl implements PedidoService {
 	private PedidoRepository pedidoRepository;
 
 	@Autowired
-	@Qualifier("productoRepository")
-	private ProductoRepository productRepository;
+	@Qualifier("productoService")
+	private ProductoService productoService;
 
 	@Override
 	public List<Pedido> listAllPedido() {
@@ -42,25 +42,16 @@ public class PedidoServiceNoPeninsulaImpl implements PedidoService {
 	}
 
 	@Override
-	public Pedido addProductToAnOrder(Producto producto, int idPedido) {
-		// TODO Auto-generated method stub
-
-		Pedido p = pedidoRepository.findById(idPedido);
-		List<Producto> productos = p.getProductoList();
+	public Producto addProductToAnOrder(Producto producto, int idPedido) {
 		
+		Pedido p = pedidoRepository.findById(idPedido);
+		producto.setIdPedido(p);
+
 		// Insert precio
 		Float precioSinIva = producto.getPrecioSinIm();
 		producto.setPrecioPVP((float) (precioSinIva * 1.04));
-		Float total = p.getTotalPrecio();
-		total += producto.getPrecioPVP();
-		p.setTotalPrecio(total);
-
-		// Insert Producto
-		productos.add(producto);
-		p.setProductoList(productos);
-		System.out.println(p);
-
-		return pedidoRepository.save(p);
+		
+		return productoService.addProducto(producto);
 	}
 
 	@Override

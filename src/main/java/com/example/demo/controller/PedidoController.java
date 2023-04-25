@@ -36,17 +36,17 @@ public class PedidoController {
 		boolean exist = pedidoServicePeninsula.listAllPedido() != null;
 		if (exist) {
 			List<Pedido> product = pedidoServicePeninsula.listAllPedido();
-			return ResponseEntity.ok(product);
+			return ResponseEntity.ok().build();
 		} else
 			return ResponseEntity.noContent().build();
 	}
 
-	@GetMapping("/pedidos{id}")
+	@GetMapping("/pedidos/{id}")
 	public ResponseEntity<?> getPedidoById(@PathVariable int id) {
 		boolean exist = pedidoServicePeninsula.findPedidoById(id) != null;
 		if (exist) {
 			Pedido pedido = pedidoServicePeninsula.findPedidoById(id);
-			return ResponseEntity.ok(pedido);
+			return ResponseEntity.ok().build();
 		} else
 			return ResponseEntity.noContent().build();
 	}
@@ -54,7 +54,7 @@ public class PedidoController {
 	@PostMapping("/pedido")
 	public ResponseEntity<?> insertPedidoNew(@RequestBody Pedido pedido) {
 		pedidoServicePeninsula.createOrder(pedido);
-		return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	@DeleteMapping("/pedidos/{id}")
@@ -66,19 +66,4 @@ public class PedidoController {
 			return ResponseEntity.noContent().build();
 	}
 
-	@PutMapping("/pedido/{id}")
-	public ResponseEntity<?> updatePedido(@RequestBody Producto producto, @PathVariable int id) {
-		Pedido p = pedidoServicePeninsula.findPedidoById(id);
-		
-		if (p.getLocalidad().equals("Ceuta") || p.getLocalidad().equals("Melilla")
-				|| p.getLocalidad().equals("Canarias")) {
-			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(pedidoServiceNoPeninsula.addProductToAnOrder(producto, id));
-
-		} else {
-			return ResponseEntity.status(HttpStatus.CREATED)
-					.body(pedidoServicePeninsula.addProductToAnOrder(producto, id));
-		}
-
-	}
 }

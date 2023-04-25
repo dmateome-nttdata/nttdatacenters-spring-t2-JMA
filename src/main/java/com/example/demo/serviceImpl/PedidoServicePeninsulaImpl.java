@@ -11,6 +11,7 @@ import com.example.demo.entity.Producto;
 import com.example.demo.repository.PedidoRepository;
 import com.example.demo.repository.ProductoRepository;
 import com.example.demo.service.PedidoService;
+import com.example.demo.service.ProductoService;
 
 @Service("pedidoServicePeninsula")
 public class PedidoServicePeninsulaImpl implements PedidoService {
@@ -22,6 +23,10 @@ public class PedidoServicePeninsulaImpl implements PedidoService {
 	@Autowired
 	@Qualifier("pedidoRepository")
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	@Qualifier("productoService")
+	private ProductoService productoService;
 
 	@Override
 	public List<Pedido> listAllPedido() {
@@ -42,24 +47,17 @@ public class PedidoServicePeninsulaImpl implements PedidoService {
 	}
 
 	@Override
-	public Pedido addProductToAnOrder(Producto producto, int idPedido) {
+	public Producto addProductToAnOrder(Producto producto, int idPedido) {
 		// TODO Auto-generated method stub
 
 		Pedido p = pedidoRepository.findById(idPedido);
-		List<Producto> productos = p.getProductoList();
+		producto.setIdPedido(p);
 
 		// Insert precio
 		Float precioSinIva = producto.getPrecioSinIm();
 		producto.setPrecioPVP((float) (precioSinIva * 1.21));
-		Float total = p.getTotalPrecio();
-		total += producto.getPrecioPVP();
-		p.setTotalPrecio(total);
-
-		// Insert Producto
-		productos.add(producto);
-		p.setProductoList(productos);
-
-		return pedidoRepository.save(p);
+		
+		return productoService.addProducto(producto);
 	}
 
 	@Override

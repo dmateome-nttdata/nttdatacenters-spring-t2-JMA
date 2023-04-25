@@ -10,7 +10,7 @@ public interface PedidoService {
     public abstract List<Pedido> listAllPedido();
     public abstract Pedido findPedidoById(int id);
     public abstract Pedido createOrder(Pedido pedido);
-    public abstract Pedido addProductToAnOrder(Producto producto,int idPedido);
+    public abstract Producto addProductToAnOrder(Producto producto,int idPedido);
     public abstract boolean breakdownOrder(int id);
     
     

@@ -73,6 +73,14 @@ public class Producto {
 	public void setIdPedido(Pedido idPedido) {
 		this.idPedido = idPedido;
 	}
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", nombre=" + nombre + ", precioPVP=" + precioPVP + ", precioSinIm=" + precioSinIm
+				+ ", idPedido=" + idPedido + "]";
+	}
+	
+	
 	
 	
 }
