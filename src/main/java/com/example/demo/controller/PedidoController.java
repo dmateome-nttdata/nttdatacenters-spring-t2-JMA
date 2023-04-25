@@ -24,11 +24,11 @@ import com.example.demo.service.PedidoService;
 public class PedidoController {
 
 	@Autowired
-	@Qualifier("pedidoServicePeninsula")
+	@Qualifier("pedidoServiceNoPeninsula")
 	private PedidoService pedidoServiceNoPeninsula;
 
 	@Autowired
-	@Qualifier("pedidoServiceNoPeninsula")
+	@Qualifier("pedidoServicePeninsula")
 	private PedidoService pedidoServicePeninsula;
 
 	@GetMapping("/pedidos")
@@ -64,6 +64,24 @@ public class PedidoController {
 			return ResponseEntity.ok().build();
 		else
 			return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping("/producto/{id}")
+	public ResponseEntity<?> insertProducto(@RequestBody Producto producto, @PathVariable int id) {
+
+		Pedido p = pedidoServicePeninsula.findPedidoById(id);
+		producto.setIdPedido(p);
+
+		if (p.getLocalidad().equals("Ceuta") || p.getLocalidad().equals("Melilla")
+				|| p.getLocalidad().equals("Canarias")) {
+			Producto proc = pedidoServiceNoPeninsula.addProductToAnOrder(producto, id);
+			return ResponseEntity.status(HttpStatus.CREATED).body(proc);
+
+		} else {
+			Producto proc = pedidoServicePeninsula.addProductToAnOrder(producto, id);
+			return ResponseEntity.status(HttpStatus.CREATED).body(proc);
+		}
+
 	}
 
 }
